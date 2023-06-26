@@ -43,7 +43,6 @@
 		B63E89F02A498227008EA14E /* ListMO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63E89D42A498227008EA14E /* ListMO+CoreDataProperties.swift */; };
 		B63E89F12A498227008EA14E /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63E89D62A498227008EA14E /* TabbarController.swift */; };
 		B6E8CFE92A499564007FFB1E /* Components in Frameworks */ = {isa = PBXBuildFile; productRef = B6E8CFE82A499564007FFB1E /* Components */; };
-		B6E8CFEB2A499C9B007FFB1E /* TestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E8CFEA2A499C9A007FFB1E /* TestView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,7 +103,6 @@
 		B63E89D42A498227008EA14E /* ListMO+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ListMO+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B63E89D62A498227008EA14E /* TabbarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
 		B6E8CFE12A499198007FFB1E /* Components */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Components; sourceTree = "<group>"; };
-		B6E8CFEA2A499C9A007FFB1E /* TestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,7 +169,6 @@
 				B63E89892A497A22008EA14E /* LaunchScreen.storyboard */,
 				B63E898C2A497A22008EA14E /* Info.plist */,
 				B63E89842A497A20008EA14E /* todo.xcdatamodeld */,
-				B6E8CFEA2A499C9A007FFB1E /* TestView.swift */,
 			);
 			path = todo;
 			sourceTree = "<group>";
@@ -449,7 +446,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6E8CFEB2A499C9B007FFB1E /* TestView.swift in Sources */,
 				B63E897C2A497A20008EA14E /* AppDelegate.swift in Sources */,
 				B63E89E12A498227008EA14E /* ListOptionViewModel.swift in Sources */,
 				B63E89EC2A498227008EA14E /* Palette.swift in Sources */,
