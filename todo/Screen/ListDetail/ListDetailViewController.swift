@@ -15,6 +15,8 @@ class ListDetailViewController: UIHostingController<ListDetailView> {
         self.viewModel = viewModel
         super.init(rootView: ListDetailView(viewModel: viewModel))
 
+        viewModel.fetchRequestTask()
+
         let person = UIBarButtonItem(image: UIImage(systemName: "person.badge.plus"), style: .done, target: self, action: nil)
         let settings = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: #selector(openListOption))
 
