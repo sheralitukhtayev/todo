@@ -15,8 +15,10 @@ final class ListDetailViewModel: ObservableObject {
 
     var selectedList : ListItemModel?
 
-    var isCompleted: Bool = true
-    var isStared: Bool = true
+    var navigateToTaskDetail : ((TaskModel?) -> Void)?
+
+    var isCompleted: Bool!
+    var isStared: Bool!
 
     @Published var taskItems: [TaskModel] = []
 
@@ -30,7 +32,7 @@ final class ListDetailViewModel: ObservableObject {
 extension ListDetailViewModel {
     func addTask() {
         do {
-            let taskItem = TaskModel(id: UUID().uuidString, isCompeleted: isCompleted, isStared: isCompleted, name: taskText, note: nil)
+            let taskItem = TaskModel(id: UUID().uuidString, isCompeleted: isCompleted, isStared: isStared, name: taskText, note: nil)
             if !taskText.isEmpty {
                 try taskRepository.save(model: taskItem)
                 taskItems.append(taskItem)
@@ -59,14 +61,22 @@ extension ListDetailViewModel {
         }
     }
     
-    func editTask(at id: String, text: String, isCompleted: Bool, isStared: Bool) {
+    func editTask(text: String, isCompleted: Bool, isStared: Bool, taskItem: TaskModel) {
         do {
-            try taskRepository.changeTask(id: id, text: text, isCompleted: self.isCompleted, isStared: self.isStared)
-            guard let index = self.taskItems.firstIndex(where: { $0.id == id }) else {return}
+            try taskRepository.changeTask(text: text, isCompleted: isCompleted, isStared: isStared, taskItem: taskItem)
+            guard let index = self.taskItems.firstIndex(where: { $0 == taskItem }) else {return}
             taskItems[index].isStared = isStared
             taskItems[index].isCompeleted = isCompleted
         } catch {
             print(error)
         }
+    }
+
+    func navigateToTaskDetailView(item: TaskModel) {
+        self.navigateToTaskDetail?(item)
+    }
+
+    func sortFetchedTasks() {
+        
     }
 }

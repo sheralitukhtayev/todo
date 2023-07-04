@@ -20,12 +20,11 @@ struct TaskView: View {
         HStack {
             List(viewModel.taskItems) { task in
                 Button(action: {
-
+                    viewModel.navigateToTaskDetailView(item: task)
                 }, label: {
                     HStack {
                         Button(action: {
-                            viewModel.isCompleted.toggle()
-                            viewModel.editTask(at: "\(task.id)", text: "\(task.name)", isCompleted: viewModel.isCompleted, isStared: viewModel.isStared)
+                            viewModel.editTask(text: task.name ?? "Undefined", isCompleted: !(task.isCompeleted ?? false), isStared: task.isStared ?? false, taskItem: task)
                         }) {
                             if task.isCompeleted == false {
                                 Image(systemName: "circle")
@@ -36,6 +35,7 @@ struct TaskView: View {
                         VStack(alignment: .leading) {
                             Text("\(task.name ?? "undefined")")
                                 .font(.headline)
+                                .foregroundColor(task.isCompeleted ?? false ? .red : Color(uiColor: .systemGray6))
                             Text("Tasks")
                                 .font(.subheadline)
                                 .foregroundColor(Color (uiColor: .systemGray6))
@@ -43,8 +43,7 @@ struct TaskView: View {
                         .padding(.leading, 15)
                         Spacer()
                         Button(action: {
-                            viewModel.isStared.toggle()
-                            viewModel.editTask(at: "\(task.id)", text: "\(task.name)", isCompleted: viewModel.isCompleted, isStared: viewModel.isStared)
+                            viewModel.editTask(text: task.name ?? "Undefined", isCompleted: task.isCompeleted ?? false, isStared: !(task.isStared ?? false), taskItem: task)
                         }) {
                             if task.isStared == false {
                                 Image(systemName: "star")
@@ -55,12 +54,12 @@ struct TaskView: View {
                     }
                 })
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                    Button(action: {
+                    Button(role: .destructive) {
                         viewModel.deleteTask(task)
-                    }) {
+                    } label: {
                         Image(systemName: "trash")
                     }
-                    .tint(.red)
+
                 }
                 .foregroundColor(.white.opacity(0.5))
                 .listRowBackground(

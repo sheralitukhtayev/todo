@@ -51,7 +51,7 @@ final class HomeViewController: UIHostingController<HomeView> {
 extension HomeViewController {
     func navigateListView(item: ListItemModel) {
         let listDetailView = ListDetailAssembly.makeViewController(selectedListItem: item)
-        navigationController?.setToolbarHidden(true, animated: true)
+        listDetailView.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(listDetailView, animated: true)
     }
 

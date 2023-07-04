@@ -17,13 +17,6 @@ final class HomeAssembly {
         let deleteListItemService = DeleteListItemService(managedObjectContext: coreDataStack.managedContext)
         let changeListItemService = ChangeListItemService(managedObjectContext: coreDataStack.managedContext)
 
-        guard let entity = NSEntityDescription.entity(forEntityName: "ListMO", in: coreDataStack.managedContext) else {
-            fatalError("Entity not found")
-        }
-
-        let entityName = entity.name
-        print(entityName)
-
         let listItemRepository = ListItemRepository(
             createListItemService: createListService,
             fetchListItemsService: fetchListItemsService,

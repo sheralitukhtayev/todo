@@ -11,11 +11,11 @@ protocol TaskRepositoryProtocol {
     func save(model: TaskModel) throws
     func fetchTaskItems() throws ->  [TaskModel]
     func deleteTask(model: TaskModel) throws
-    func changeTask(id: String, text: String, isCompleted: Bool, isStared: Bool) throws
+    func changeTask(text: String, isCompleted: Bool, isStared: Bool, taskItem: TaskModel) throws
 }
 
 final class TaskRepositoryFake: TaskRepositoryProtocol {
-    func changeTask(id: String, text: String, isCompleted: Bool, isStared: Bool) throws {
+    func changeTask(text: String, isCompleted: Bool, isStared: Bool, taskItem: TaskModel) throws {
 
     }
 
@@ -53,8 +53,8 @@ final class TaskRepositoryFake: TaskRepositoryProtocol {
 }
 
 final class TaskRepository: TaskRepositoryProtocol {
-    func changeTask(id: String, text: String, isCompleted: Bool, isStared: Bool) throws {
-        try changeTaskService.changeTask(id: id, text: text, isCompleted: isCompleted, isStared: isStared)
+    func changeTask(text: String, isCompleted: Bool, isStared: Bool, taskItem: TaskModel) throws {
+        try changeTaskService.changeTask(text: text, isCompleted: isCompleted, isStared: isStared, taskItem: taskItem)
     }
 
     func deleteTask(model: TaskModel) throws {

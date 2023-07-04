@@ -15,13 +15,7 @@ struct HomeView: View {
     @State var isPresentingEditView = false
     var body: some View {
         VStack {
-            List {
-                Button(action: {
-
-                }, label: {
-                    HomeListItemView(leadingImageSystemName: "squareshape.squareshape.dashed", title: "Title", secondaryImage: false, trailingImageSystemName: "10")
-                })
-                .listRowSeparator(.hidden)
+            List() {
                 ForEach(viewModel.listItems) { item in
                     if let name = item.name {
                         Button(action: {

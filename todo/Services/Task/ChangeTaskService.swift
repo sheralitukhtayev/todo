@@ -14,23 +14,11 @@ struct ChangeTaskService {
         self.managedObjectContext = managedObjectContext
     }
 
-    func changeTask(id: String, text: String, isCompleted: Bool, isStared: Bool) throws {
+    func changeTask(text: String, isCompleted: Bool, isStared: Bool, taskItem: TaskModel) throws {
+        guard let modelId = taskItem.id else { throw CoreDataError.notEnoughData }
         let fetchRequest = TaskMO.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-//        do {
-//            let taskMO = try managedObjectContext.fetch(fetchRequest)
-//            guard let firstItem = taskMO.first else { throw CoreDataError.notFound }
-//            firstItem.name = text
-//            firstItem.isStared = isStared
-//            firstItem.isCompleted = isCompleted
-//            guard managedObjectContext.hasChanges else {return}
-//            try managedObjectContext.save()
-//        } catch {
-//            print("Error editing item: \(error)")
-//        }
+        fetchRequest.predicate = NSPredicate(format: "id == %@", modelId)
         do {
-            let fetchRequest : NSFetchRequest<TaskMO> = TaskMO.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id == %@", id)
             let fetchedResults = try managedObjectContext.fetch(fetchRequest)
             if let changedTask = fetchedResults.first {
                 changedTask.isStared = isStared

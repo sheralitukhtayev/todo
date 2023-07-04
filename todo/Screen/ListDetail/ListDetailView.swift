@@ -25,7 +25,7 @@ struct ListDetailView: View {
                 .padding(.leading, 30)
                 .frame(height: 60)
                 .font(.system(size: 20))
-                .background(.white.opacity(0.5))
+                .background(.gray.opacity(0.8))
                 .foregroundColor(.blue)
                 .cornerRadius(2)
                 .overlay(
