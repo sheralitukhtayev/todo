@@ -21,10 +21,11 @@ final class ListDetailAssembly {
         let fetchTaskService = FetchTaskService(managedObjectContext: coreDataStack.managedContext)
         let deleteTaskService = DeleteTaskService(managedObjectContext: coreDataStack.managedContext)
         let changeTaskService = ChangeTaskService(managedObjectContext: coreDataStack.managedContext)
+        let reorderTaskService = ReorderTaskService(managedObjectContext: coreDataStack.managedContext)
 
 //        let listItemRepository = ListItemRepository(createListItemService: createListService, fetchListItemsService: fetchListItemsService, deleteListItemService: deleteListItemService, changeListItemService: changeListItemService)
 
-        let taskRepository = TaskRepository(createTaskService: createTaskService, fetchTaskService: fetchTaskService, deleteTaskService: deleteTaskService, changeTaskService: changeTaskService)
+        let taskRepository = TaskRepository(createTaskService: createTaskService, fetchTaskService: fetchTaskService, deleteTaskService: deleteTaskService, changeTaskService: changeTaskService, reorderTaskService: reorderTaskService)
 
         let viewModel = ListDetailViewModel(taskRepository: taskRepository)
 

@@ -21,14 +21,18 @@ public struct HomeListItemView: View {
     }
     public var body: some View {
         HStack {
-            if let leadingImageSystemName {
-                Image(systemName: "\(leadingImageSystemName)")
+            if leadingImageSystemName != nil {
+                Image(systemName: "list.bullet")
+                    .font(.system(size: 20))
+                    .foregroundColor(.blue)
             } else if (leadingImageSystemName == nil) {
-                Image(systemName: "list.dash")
+                Image(systemName: "list.bullet")
+                    .font(.system(size: 20))
+                    .foregroundColor(.blue)
             }
             if let title {
                 Text("\(title)")
-                    .font(.system(size: 18))
+                    .font(.system(size: 20))
             }
             if secondaryImage == true {
                 Image(systemName: "person.2.fill")
@@ -36,7 +40,7 @@ public struct HomeListItemView: View {
             Spacer()
             if let trailingImageSystemName {
                 Text("\(trailingImageSystemName)")
-                    .font(.system(size: 14))
+                    .font(.system(size: 20))
                     .foregroundColor(.gray)
             }
         }

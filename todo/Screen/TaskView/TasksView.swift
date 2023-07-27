@@ -12,60 +12,86 @@ struct TaskView: View {
 
     @ObservedObject var viewModel: ListDetailViewModel
 
+    @Environment(\.managedObjectContext) var managedObjectContext
+
     public init(viewModel: ListDetailViewModel) {
         self.viewModel = viewModel
     }
 
     var body: some View {
         HStack {
-            List(viewModel.taskItems) { task in
-                Button(action: {
-                    viewModel.navigateToTaskDetailView(item: task)
-                }, label: {
-                    HStack {
-                        Button(action: {
-                            viewModel.editTask(text: task.name ?? "Undefined", isCompleted: !(task.isCompeleted ?? false), isStared: task.isStared ?? false, taskItem: task)
-                        }) {
-                            if task.isCompeleted == false {
-                                Image(systemName: "circle")
-                            } else {
-                                Image(systemName: "circle.fill")
+            List {
+                ForEach(viewModel.taskItems) { task in
+                    Button(action: {
+                        viewModel.navigateToTaskDetailView(item: task)
+                    }, label: {
+                        HStack {
+                            Button(action: {
+                                viewModel.editTask(text: task.name ?? "Undefined", isCompleted: !(task.isCompeleted ?? false), isStared: task.isStared ?? false, taskItem: task, note: task.note ?? "")
+                            }) {
+                                if task.isCompeleted == false {
+                                    Image(systemName: "circle")
+                                        .font(.system(size: 20))
+                                        .foregroundStyle(Palette.current.taskIconColor.suiColor)
+                                } else {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .font(.system(size: 20))
+                                        .foregroundStyle(Palette.current.taskIconColor.suiColor)
+                                }
+                            }
+                            VStack(alignment: .leading) {
+                                if #available(iOS 16.0, *) {
+                                    Text("\(task.name ?? "undefined"): Order-\(task.order!)")
+                                        .font(.headline)
+                                        .foregroundStyle(Palette.current.taskForegroundColor.suiColor)
+                                        .strikethrough(task.isCompeleted ?? false ? true : false)
+                                } else {
+                                }
+                                Text(task.note?.isEmpty ?? true ? "Task" : "Task \(Image(systemName: "dot.square")) Note")
+                                    .font(.subheadline)
+                                    .foregroundStyle(Palette.current.taskIconColor.suiColor)
+                            }
+                            Spacer()
+                            Button(action: {
+                                viewModel.editTask(text: task.name ?? "Undefined", isCompleted: task.isCompeleted ?? false, isStared: !(task.isStared ?? false), taskItem: task, note: task.note ?? "")
+                            }) {
+                                if task.isStared == false {
+                                    Image(systemName: "star")
+                                        .font(.system(size: 20))
+                                        .foregroundStyle(Palette.current.taskIconColor.suiColor)
+                                } else {
+                                    Image(systemName: "star.fill")
+                                        .font(.system(size: 20))
+                                        .foregroundStyle(Palette.current.taskIconColor.suiColor)
+                                }
                             }
                         }
-                        VStack(alignment: .leading) {
-                            Text("\(task.name ?? "undefined")")
-                                .font(.headline)
-                                .foregroundColor(task.isCompeleted ?? false ? .red : Color(uiColor: .systemGray6))
-                            Text("Tasks")
-                                .font(.subheadline)
-                                .foregroundColor(Color (uiColor: .systemGray6))
+                    })
+                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                        Button {
+                            viewModel.editTaskText(item: task)
+                        } label: {
+                            Image(systemName: "rectangle.and.pencil.and.ellipsis")
                         }
-                        .padding(.leading, 15)
-                        Spacer()
-                        Button(action: {
-                            viewModel.editTask(text: task.name ?? "Undefined", isCompleted: task.isCompeleted ?? false, isStared: !(task.isStared ?? false), taskItem: task)
-                        }) {
-                            if task.isStared == false {
-                                Image(systemName: "star")
-                            } else {
-                                Image(systemName: "star.fill")
-                            }
-                        }
+                        .tint(.blue)
                     }
-                })
-                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                    Button(role: .destructive) {
-                        viewModel.deleteTask(task)
-                    } label: {
-                        Image(systemName: "trash")
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            viewModel.deleteTaskItem(item: task)
+                        } label: {
+                            Image(systemName: "trash")
+                        }
                     }
 
                 }
-                .foregroundColor(.white.opacity(0.5))
+                .onMove(perform: { indexSet, int in
+                    viewModel.move(from: indexSet, to: int)
+                })
+                .listRowSeparator(.visible)
+                .foregroundColor(Palette.current.taskForegroundColor.suiColor)
                 .listRowBackground(
                     RoundedRectangle(cornerRadius: 0)
-                        .background(.white.opacity(0.5))
-                        .foregroundColor(.black.opacity(0.5))
+                        .foregroundColor(Palette.current.taskBackgroundColor.suiColor)
                 )
             }
             .listStyle(.plain)

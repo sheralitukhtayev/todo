@@ -16,11 +16,10 @@ struct FetchTaskService {
 
     func fetchTask() throws -> [TaskModel] {
         let fetchRequest = NSFetchRequest<TaskMO>(entityName: "TaskMO")
-        let sortedTasks = NSSortDescriptor(key: "isStared", ascending: false)
-        let completedSort = NSSortDescriptor(key: "isCompleted", ascending: false)
-        fetchRequest.sortDescriptors = [sortedTasks, completedSort]
+        let orderSort = NSSortDescriptor(key: "order", ascending: true)
+        fetchRequest.sortDescriptors = [orderSort]
         let items = try managedObjectContext.fetch(fetchRequest)
-        let taskModels = items.map { TaskModel(id: $0.id, isCompeleted: $0.isCompleted, isStared: $0.isStared, name: $0.name, note: $0.note) }
+        let taskModels = items.map { TaskModel(order: $0.order, id: $0.id, isCompeleted: $0.isCompleted, isStared: $0.isStared, name: $0.name, note: $0.note) }
         return taskModels
     }
 }

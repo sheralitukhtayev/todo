@@ -9,7 +9,8 @@ import Foundation
 import CoreData
 
 public protocol TaskModelProtocol {
-    var id: String? { get } 
+    var id: String? { get }
+    var order: Int16? { get }
     var isCompeleted: Bool? { get }
     var isStared: Bool? { get }
     var name: String? { get }

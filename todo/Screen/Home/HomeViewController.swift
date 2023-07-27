@@ -61,7 +61,7 @@ extension HomeViewController {
     }
 
     func deleteListItem(_ item: ListItemModel) {
-        let alertController = UIAlertController(title: "Will be permanently deleted", message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: "\"\(item.name ?? "")\" will be permanently deleted", message: nil, preferredStyle: .actionSheet)
 
         let deleteAction = UIAlertAction(title: "Delete List", style: .destructive) { (_) in
             self.viewModel.deleteItem(item)
@@ -121,7 +121,8 @@ extension HomeViewController {
     }
 
     func editActionSheetMenu(text: String, id: String) {
-        let optionMenu = UIAlertController(title: nil, message: "Choose Option", preferredStyle: .actionSheet)
+        guard let index = self.viewModel.listItems.firstIndex(where: { $0.id == id }) else {return}
+        let optionMenu = UIAlertController(title: nil, message: "\"\(viewModel.listItems[index].name ?? "")\" will be permanently edited", preferredStyle: .actionSheet)
 
         let saveAction = UIAlertAction(title: "Save", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in

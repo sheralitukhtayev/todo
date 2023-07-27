@@ -16,6 +16,7 @@ struct CreateTaskService {
 
     func save(model: TaskModel) throws {
         let managedObject = TaskMO(context: managedObjectContext)
+        managedObject.order = model.order ?? Int16()
         managedObject.id = model.id
         managedObject.name = model.name
         managedObject.note = model.note

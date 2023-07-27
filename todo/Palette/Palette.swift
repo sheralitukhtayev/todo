@@ -37,14 +37,23 @@ extension UIColor {
 
 public protocol ColorPalette {
     var accentColor: UIColor { get }
+    var taskForegroundColor: UIColor { get }
+    var taskBackgroundColor: UIColor { get }
+    var taskIconColor: UIColor { get }
 }
 
 public struct LightPalette: ColorPalette {
     public var accentColor: UIColor { .white }
+    public var taskForegroundColor: UIColor { .darkGray }
+    public var taskBackgroundColor: UIColor { .lightGray }
+    public var taskIconColor: UIColor { .systemGray6 }
 }
 
 public struct DarkPalette: ColorPalette {
     public var accentColor: UIColor { .black }
+    public var taskForegroundColor: UIColor { .lightGray }
+    public var taskBackgroundColor: UIColor { .darkGray }
+    public var taskIconColor: UIColor { .systemGray6 }
 }
 
 
@@ -61,6 +70,19 @@ public struct Palette: ColorPalette {
     public var accentColor: UIColor {
         dynamicColor(\.accentColor)
     }
+
+    public var taskForegroundColor: UIColor {
+        dynamicColor(\.taskForegroundColor)
+    }
+
+    public var taskBackgroundColor: UIColor {
+        dynamicColor(\.taskBackgroundColor)
+    }
+
+    public var taskIconColor: UIColor {
+        dynamicColor(\.taskIconColor)
+    }
+
     private func dynamicColor(_ path: KeyPath<ColorPalette, UIColor>) -> UIColor {
         guard #available(iOS 13.0, *) else { return light[keyPath: path] }
         return UIColor {

@@ -16,9 +16,11 @@ final class ListDetailViewModel: ObservableObject {
     var selectedList : ListItemModel?
 
     var navigateToTaskDetail : ((TaskModel?) -> Void)?
+    var editTaskName: ((TaskModel?) -> Void)?
+    var deleteTask: ((TaskModel?) -> Void)?
 
-    var isCompleted: Bool!
-    var isStared: Bool!
+    var isCompleted: Bool = false
+    var isStared: Bool = false
 
     @Published var taskItems: [TaskModel] = []
 
@@ -32,7 +34,7 @@ final class ListDetailViewModel: ObservableObject {
 extension ListDetailViewModel {
     func addTask() {
         do {
-            let taskItem = TaskModel(id: UUID().uuidString, isCompeleted: isCompleted, isStared: isStared, name: taskText, note: nil)
+            let taskItem = TaskModel(order: Int16(taskItems.last?.order ?? 0) + 1, id: UUID().uuidString, isCompeleted: isCompleted, isStared: isStared, name: taskText, note: nil)
             if !taskText.isEmpty {
                 try taskRepository.save(model: taskItem)
                 taskItems.append(taskItem)
@@ -61,12 +63,14 @@ extension ListDetailViewModel {
         }
     }
     
-    func editTask(text: String, isCompleted: Bool, isStared: Bool, taskItem: TaskModel) {
+    func editTask(text: String, isCompleted: Bool, isStared: Bool, taskItem: TaskModel, note: String) {
         do {
-            try taskRepository.changeTask(text: text, isCompleted: isCompleted, isStared: isStared, taskItem: taskItem)
+            try taskRepository.changeTask(text: text, isCompleted: isCompleted, isStared: isStared, taskItem: taskItem, taskNote: note)
             guard let index = self.taskItems.firstIndex(where: { $0 == taskItem }) else {return}
             taskItems[index].isStared = isStared
             taskItems[index].isCompeleted = isCompleted
+            taskItems[index].name = text
+            taskItems[index].note = note
         } catch {
             print(error)
         }
@@ -76,7 +80,21 @@ extension ListDetailViewModel {
         self.navigateToTaskDetail?(item)
     }
 
-    func sortFetchedTasks() {
-        
+    func editTaskText(item: TaskModel) {
+        self.editTaskName?(item)
+    }
+
+    func deleteTaskItem(item: TaskModel) {
+        self.deleteTask?(item)
+    }
+
+    func move( from source: IndexSet, to destination: Int)
+    {
+        taskItems.move(fromOffsets: source, toOffset: destination)
+        do {
+            try taskRepository.reorderTask(from: source, to: destination)
+        } catch {
+            print("Error")
+        }
     }
 }

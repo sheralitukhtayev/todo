@@ -11,11 +11,16 @@ protocol TaskRepositoryProtocol {
     func save(model: TaskModel) throws
     func fetchTaskItems() throws ->  [TaskModel]
     func deleteTask(model: TaskModel) throws
-    func changeTask(text: String, isCompleted: Bool, isStared: Bool, taskItem: TaskModel) throws
+    func changeTask(text: String, isCompleted: Bool, isStared: Bool, taskItem: TaskModel, taskNote: String) throws
+    func reorderTask(from: IndexSet, to: Int) throws
 }
 
 final class TaskRepositoryFake: TaskRepositoryProtocol {
-    func changeTask(text: String, isCompleted: Bool, isStared: Bool, taskItem: TaskModel) throws {
+    func reorderTask(from: IndexSet, to: Int) throws {
+
+    }
+
+    func changeTask(text: String, isCompleted: Bool, isStared: Bool, taskItem: TaskModel, taskNote: String) throws {
 
     }
 
@@ -53,14 +58,17 @@ final class TaskRepositoryFake: TaskRepositoryProtocol {
 }
 
 final class TaskRepository: TaskRepositoryProtocol {
-    func changeTask(text: String, isCompleted: Bool, isStared: Bool, taskItem: TaskModel) throws {
-        try changeTaskService.changeTask(text: text, isCompleted: isCompleted, isStared: isStared, taskItem: taskItem)
+    func reorderTask(from: IndexSet, to: Int) throws {
+        try reorderTaskService.reorderTask(source: from, destination: to)
+    }
+
+    func changeTask(text: String, isCompleted: Bool, isStared: Bool, taskItem: TaskModel, taskNote: String) throws {
+        try changeTaskService.changeTask(text: text, isCompleted: isCompleted, isStared: isStared, taskItem: taskItem, taskNote: taskNote)
     }
 
     func deleteTask(model: TaskModel) throws {
         try deleteTaskService.delete(model: model)
     }
-
 
     func fetchTaskItems() throws -> [TaskModel] {
         try fetchTaskService.fetchTask()
@@ -70,12 +78,14 @@ final class TaskRepository: TaskRepositoryProtocol {
     private let fetchTaskService: FetchTaskService
     private let deleteTaskService: DeleteTaskService
     private let changeTaskService: ChangeTaskService
+    private let reorderTaskService: ReorderTaskService
 
-    init(createTaskService: CreateTaskService, fetchTaskService: FetchTaskService, deleteTaskService: DeleteTaskService, changeTaskService: ChangeTaskService) {
+    init(createTaskService: CreateTaskService, fetchTaskService: FetchTaskService, deleteTaskService: DeleteTaskService, changeTaskService: ChangeTaskService, reorderTaskService: ReorderTaskService) {
         self.createTaskService = createTaskService
         self.fetchTaskService = fetchTaskService
         self.deleteTaskService = deleteTaskService
         self.changeTaskService = changeTaskService
+        self.reorderTaskService = reorderTaskService
     }
 
 //    func changeListTheme(id: String, text: String) throws {

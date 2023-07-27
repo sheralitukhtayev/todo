@@ -21,11 +21,11 @@ struct ListDetailView: View {
                     "",
                     text: $viewModel.taskText
                 )
-                .foregroundColor(.white)
-                .padding(.leading, 30)
+                .foregroundColor(Palette.current.taskForegroundColor.suiColor)
+                .padding(.leading, 40)
                 .frame(height: 60)
                 .font(.system(size: 20))
-                .background(.gray.opacity(0.8))
+                .background(Palette.current.taskBackgroundColor.suiColor)
                 .foregroundColor(.blue)
                 .cornerRadius(2)
                 .overlay(
@@ -33,21 +33,15 @@ struct ListDetailView: View {
                         viewModel.addTask()
                     }, label: {
                         Image(systemName: "circle")
-                            .frame(width: 30, height: 30)
+                            .font(.system(size: 20))
+                            .padding(.leading, 10)
+                            .foregroundStyle(.white)
                     })
-                    .padding(.leading, 2),
+                    .padding(.leading, 0),
                     alignment: .leading
                 )
             }
             .padding(.horizontal)
-            //            }
-            //            .listStyle(PlainListStyle())
         }
     }
 }
-
-//struct ListDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ListDetailView(viewModel: ListDetailViewModel(taskRepository: TaskRepositoryFake()))
-//    }
-//}

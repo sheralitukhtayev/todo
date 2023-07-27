@@ -27,7 +27,7 @@ public struct TaskItemView: View {
                 if completed == false {
                     Image(systemName: "circle")
                 } else {
-                    Image(systemName: "circle.fill")
+                    Image(systemName: "checkmark.circle.fill")
                 }
             }
             VStack(alignment: .leading) {

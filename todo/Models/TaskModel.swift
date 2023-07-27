@@ -8,6 +8,8 @@
 import CoreData
 
 public struct TaskModel: TaskModelProtocol, Identifiable, Equatable {
+    public var order: Int16?
+
     public var id: String?
 
     public var isCompeleted: Bool?
@@ -18,13 +20,8 @@ public struct TaskModel: TaskModelProtocol, Identifiable, Equatable {
 
     public var note: String?
 
-    public init(
-        id: String? = nil,
-        isCompeleted: Bool? = nil,
-        isStared: Bool? = nil,
-        name: String? = nil, note:
-        String? = nil)
-    {
+    public init(order: Int16? = nil, id: String? = nil, isCompeleted: Bool? = nil, isStared: Bool? = nil, name: String? = nil, note: String? = nil) {
+        self.order = order
         self.id = id
         self.isCompeleted = isCompeleted
         self.isStared = isStared
